@@ -1,6 +1,7 @@
 package com.prekogdevs.core.data.auth
 
 import com.prekogdevs.core.data.dto.AuthInfoSerializable
+import com.prekogdevs.core.data.dto.requests.ChangePasswordRequest
 import com.prekogdevs.core.data.dto.requests.EmailRequest
 import com.prekogdevs.core.data.dto.requests.LoginRequest
 import com.prekogdevs.core.data.dto.requests.RegisterRequest
@@ -81,6 +82,19 @@ class KtorAuthService(
             body = ResetPasswordRequest(
                 newPassword = newPassword,
                 token = token
+            )
+        )
+    }
+
+    override suspend fun changePassword(
+        currentPassword: String,
+        newPassword: String
+    ): EmptyResult<DataError.Remote> {
+        return httpClient.post(
+            route = "/auth/change-password",
+            body = ChangePasswordRequest(
+                oldPassword = currentPassword,
+                newPassword = newPassword
             )
         )
     }
