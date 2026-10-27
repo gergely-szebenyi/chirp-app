@@ -1,14 +1,29 @@
 package com.prekogdevs.chat.data.participant
 
 import com.prekogdevs.chat.data.dto.ChatParticipantDto
+import com.prekogdevs.chat.data.dto.request.ConfirmProfilePictureRequest
+import com.prekogdevs.chat.data.dto.response.ProfilePictureUploadUrlsResponse
 import com.prekogdevs.chat.data.mappers.toDomain
 import com.prekogdevs.chat.domain.participant.ChatParticipantService
 import com.prekogdevs.chat.domain.models.ChatParticipant
+import com.prekogdevs.chat.domain.models.ProfilePictureUploadUrls
+import com.prekogdevs.core.data.networking.constructRoute
 import com.prekogdevs.core.data.networking.get
+import com.prekogdevs.core.data.networking.post
+import com.prekogdevs.core.data.networking.put
+import com.prekogdevs.core.data.networking.safeCall
 import com.prekogdevs.core.domain.util.DataError
+import com.prekogdevs.core.domain.util.EmptyResult
 import com.prekogdevs.core.domain.util.Result
 import com.prekogdevs.core.domain.util.map
 import io.ktor.client.HttpClient
+import io.ktor.client.request.header
+import io.ktor.client.request.parameter
+import io.ktor.client.request.put
+import io.ktor.client.request.setBody
+import io.ktor.client.request.url
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 class KtorChatParticipantService(
     private val httpClient: HttpClient
@@ -27,5 +42,38 @@ class KtorChatParticipantService(
         return httpClient.get<ChatParticipantDto>(
             route = "/participants"
         ).map { it.toDomain() }
+    }
+
+    override suspend fun getProfilePictureUploadUrl(mimeType: String): Result<ProfilePictureUploadUrls, DataError.Remote> {
+        return httpClient.post<Unit, ProfilePictureUploadUrlsResponse>(
+            route = "/participants/profile-picture-upload",
+            queryParams = mapOf(
+                "mimeType" to mimeType
+            ),
+            body = Unit
+        ).map { it.toDomain() }
+    }
+
+    override suspend fun uploadProfilePicture(
+        uploadUrl: String,
+        imageBytes: ByteArray,
+        headers: Map<String, String>
+    ): EmptyResult<DataError.Remote> {
+        return safeCall {
+            httpClient.put {
+                url(uploadUrl)
+                headers.forEach { (key, value) ->
+                    header(key, value)
+                }
+                setBody(imageBytes)
+            }
+        }
+    }
+
+    override suspend fun confirmProfilePictureUpload(publicUrl: String): EmptyResult<DataError.Remote> {
+        return httpClient.post<ConfirmProfilePictureRequest, Unit>(
+            route = "/participants/confirm-profile-picture",
+            body = ConfirmProfilePictureRequest(publicUrl)
+        )
     }
 }
