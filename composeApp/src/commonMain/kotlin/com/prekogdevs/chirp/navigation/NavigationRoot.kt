@@ -3,11 +3,10 @@ package com.prekogdevs.chirp.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.prekogdevs.auth.presentation.navigation.AuthGraphRoutes
 import com.prekogdevs.auth.presentation.navigation.authGraph
-import com.prekogdevs.chat.presentation.chat_list.ChatListRoute
-import com.prekogdevs.chat.presentation.chat_list.ChatListScreenRoot
+import com.prekogdevs.chat.presentation.navigation.ChatGraphRoutes
+import com.prekogdevs.chat.presentation.navigation.chatGraph
 
 @Composable
 fun NavigationRoot(
@@ -21,15 +20,15 @@ fun NavigationRoot(
         authGraph(
             navController = navController,
             onLoginSuccess = {
-                navController.navigate(ChatListRoute) {
+                navController.navigate(ChatGraphRoutes.Graph) {
                     popUpTo(AuthGraphRoutes.Graph) {
                         inclusive = true
                     }
                 }
             }
         )
-        composable<ChatListRoute> {
-            ChatListScreenRoot()
-        }
+        chatGraph(
+            navController = navController
+        )
     }
 }
