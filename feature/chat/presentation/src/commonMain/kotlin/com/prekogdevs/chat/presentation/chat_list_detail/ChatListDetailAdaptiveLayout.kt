@@ -38,6 +38,7 @@ import com.prekogdevs.chat.presentation.chat_detail.ChatDetailRoot
 import com.prekogdevs.chat.presentation.chat_list.ChatListAction
 import com.prekogdevs.chat.presentation.chat_list.ChatListRoot
 import com.prekogdevs.chat.presentation.create_chat.CreateChatRoot
+import com.prekogdevs.chat.presentation.manage_chat.ManageChatRoot
 import com.prekogdevs.core.designsystem.components.buttons.ChirpFloatingActionButton
 import com.prekogdevs.core.designsystem.theme.extended
 import com.prekogdevs.core.presentation.util.DialogSheetScopedViewModel
@@ -102,6 +103,9 @@ fun ChatListDetailAdaptiveLayout(
                 ChatDetailRoot(
                     chatId = sharedState.selectedChatId,
                     isDetailPresent = detailPane == PaneAdaptedValue.Expanded && listPane == PaneAdaptedValue.Expanded,
+                    onChatMembersClick = {
+                        chatListDetailViewModel.onAction(ChatListDetailAction.OnManageChatClick)
+                    },
                     onBack = {
                         scope.launch {
                             if(scaffoldNavigator.canNavigateBack()) {
@@ -124,6 +128,19 @@ fun ChatListDetailAdaptiveLayout(
                 scope.launch {
                     scaffoldNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
                 }
+            },
+            onDismiss = {
+                chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)
+            }
+        )
+    }
+
+    DialogSheetScopedViewModel(
+        visible = sharedState.dialogState is DialogState.ManageChat
+    ) {
+        ManageChatRoot(
+            onMembersAdded = {
+                chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)
             },
             onDismiss = {
                 chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)

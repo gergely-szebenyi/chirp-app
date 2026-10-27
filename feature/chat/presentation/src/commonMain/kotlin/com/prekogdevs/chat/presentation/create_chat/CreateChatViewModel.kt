@@ -8,7 +8,8 @@ import chirp.feature.chat.presentation.generated.resources.Res
 import chirp.feature.chat.presentation.generated.resources.error_participant_not_found
 import com.prekogdevs.chat.domain.chat.ChatParticipantService
 import com.prekogdevs.chat.domain.chat.ChatRepository
-import com.prekogdevs.chat.domain.chat.ChatService
+import com.prekogdevs.chat.presentation.components.manage_chat.ManageChatAction
+import com.prekogdevs.chat.presentation.components.manage_chat.ManageChatState
 import com.prekogdevs.chat.presentation.mappers.toUi
 import com.prekogdevs.core.domain.util.DataError
 import com.prekogdevs.core.domain.util.onFailure
@@ -40,7 +41,7 @@ class CreateChatViewModel(
     private val eventChannel = Channel<CreateChatEvent>()
     val events = eventChannel.receiveAsFlow()
 
-    private val _state = MutableStateFlow(CreateChatState())
+    private val _state = MutableStateFlow(ManageChatState())
 
     private val searchFlow = snapshotFlow { _state.value.queryTextState.text.toString() }
         .debounce(1.seconds)
@@ -58,13 +59,13 @@ class CreateChatViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = CreateChatState()
+            initialValue = ManageChatState()
         )
 
-    fun onAction(action: CreateChatAction) {
+    fun onAction(action: ManageChatAction) {
         when (action) {
-            CreateChatAction.OnAddClick -> addParticipant()
-            CreateChatAction.OnCreateChatClick -> createChat()
+            ManageChatAction.OnAddClick -> addParticipant()
+            ManageChatAction.OnPrimaryActionClick -> createChat()
             else -> Unit
         }
     }
