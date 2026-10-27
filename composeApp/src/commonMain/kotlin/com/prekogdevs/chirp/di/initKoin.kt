@@ -1,6 +1,7 @@
 package com.prekogdevs.chirp.di
 
 import com.prekogdevs.auth.presentation.di.authPresentationModule
+import com.prekogdevs.chat.data.di.chatDataModule
 import com.prekogdevs.chat.presentation.di.chatPresentationModule
 import com.prekogdevs.core.data.di.coreDataModule
 import com.prekogdevs.core.presentation.di.corePresentationModule
@@ -15,7 +16,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             authPresentationModule,
             appModule,
             chatPresentationModule,
-            corePresentationModule
+            corePresentationModule,
+            chatDataModule
         )
     }
 }
