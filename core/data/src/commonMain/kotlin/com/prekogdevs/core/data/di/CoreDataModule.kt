@@ -1,9 +1,11 @@
 package com.prekogdevs.core.data.di
 
+import com.prekogdevs.core.data.auth.DataStoreSessionStorage
 import com.prekogdevs.core.data.auth.KtorAuthService
 import com.prekogdevs.core.data.logging.KermitLogger
 import com.prekogdevs.core.data.networking.HttpClientFactory
 import com.prekogdevs.core.domain.auth.AuthService
+import com.prekogdevs.core.domain.auth.SessionStorage
 import com.prekogdevs.core.domain.logging.ChirpLogger
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -19,4 +21,5 @@ val coreDataModule = module {
         HttpClientFactory(get()).create(get())
     }
     singleOf(::KtorAuthService) bind AuthService::class
+    singleOf(::DataStoreSessionStorage) bind SessionStorage::class
 }
