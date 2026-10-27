@@ -30,6 +30,7 @@ import com.prekogdevs.core.designsystem.components.brand.ChirpBrandLogo
 import com.prekogdevs.core.designsystem.theme.ChirpTheme
 import com.prekogdevs.core.designsystem.theme.extended
 import com.prekogdevs.core.presentation.util.DeviceConfiguration
+import com.prekogdevs.core.presentation.util.clearFocusOnTap
 import com.prekogdevs.core.presentation.util.currentDeviceConfiguration
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -52,6 +53,7 @@ fun ChirpAdaptiveFormLayout(
         DeviceConfiguration.MOBILE_PORTRAIT -> {
             ChirpSurface(
                 modifier = modifier
+                    .clearFocusOnTap()
                     .consumeWindowInsets(WindowInsets.navigationBars)
                     .consumeWindowInsets(WindowInsets.displayCutout),
                 header = {
