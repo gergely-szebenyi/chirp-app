@@ -3,7 +3,6 @@ package com.prekogdevs.chat.data.notification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.prekogdevs.chat.domain.notification.DeviceTokenService
 import com.prekogdevs.core.domain.auth.SessionStorage
-import com.prekogdevs.core.domain.platform
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
