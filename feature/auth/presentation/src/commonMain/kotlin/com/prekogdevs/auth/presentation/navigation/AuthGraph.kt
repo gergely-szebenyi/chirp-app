@@ -10,6 +10,7 @@ import com.prekogdevs.auth.presentation.forgot_password.ForgotPasswordRoot
 import com.prekogdevs.auth.presentation.login.LoginRoot
 import com.prekogdevs.auth.presentation.register.RegisterRoot
 import com.prekogdevs.auth.presentation.register_success.RegisterSuccessRoot
+import com.prekogdevs.auth.presentation.reset_password.ResetPasswordRoot
 
 fun NavGraphBuilder.authGraph(
     navController: NavController,
@@ -91,6 +92,20 @@ fun NavGraphBuilder.authGraph(
         }
         composable<AuthGraphRoutes.ForgotPassword> {
             ForgotPasswordRoot()
+        }
+        composable<AuthGraphRoutes.ResetPassword>(
+            deepLinks = listOf(
+                navDeepLink {
+                    // TODO: pl-coding specific value, replace with your own
+                    this.uriPattern = "https://chirp.pl-coding.com/api/auth/reset-password?token={token}"
+                },
+                navDeepLink {
+                    // TODO: pl-coding specific value, replace with your own
+                    this.uriPattern = "chirp://chirp.pl-coding.com/api/auth/reset-password?token={token}"
+                },
+            )
+        ) {
+            ResetPasswordRoot()
         }
     }
 }
