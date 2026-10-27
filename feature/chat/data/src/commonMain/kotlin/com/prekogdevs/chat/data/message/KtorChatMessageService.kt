@@ -4,8 +4,10 @@ import com.prekogdevs.chat.data.dto.ChatMessageDto
 import com.prekogdevs.chat.data.mappers.toDomain
 import com.prekogdevs.chat.domain.message.ChatMessageService
 import com.prekogdevs.chat.domain.models.ChatMessage
+import com.prekogdevs.core.data.networking.delete
 import com.prekogdevs.core.data.networking.get
 import com.prekogdevs.core.domain.util.DataError
+import com.prekogdevs.core.domain.util.EmptyResult
 import com.prekogdevs.core.domain.util.Result
 import com.prekogdevs.core.domain.util.map
 import io.ktor.client.HttpClient
@@ -13,6 +15,12 @@ import io.ktor.client.HttpClient
 class KtorChatMessageService(
     private val httpClient: HttpClient
 ): ChatMessageService {
+
+    override suspend fun deleteMessage(messageId: String): EmptyResult<DataError.Remote> {
+        return httpClient.delete(
+            route = "/messages/$messageId"
+        )
+    }
 
     override suspend fun fetchMessages(
         chatId: String,
