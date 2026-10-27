@@ -1,6 +1,7 @@
 package com.prekogdevs.chat.data.mappers
 
 import com.prekogdevs.chat.data.dto.ChatMessageDto
+import com.prekogdevs.chat.data.dto.websocket.IncomingWebSocketDto
 import com.prekogdevs.chat.data.dto.websocket.OutgoingWebSocketDto
 import com.prekogdevs.chat.database.entities.ChatMessageEntity
 import com.prekogdevs.chat.database.view.LastMessageView
@@ -68,5 +69,16 @@ fun ChatMessage.toNewMessage(): OutgoingWebSocketDto.NewMessage {
         messageId = id,
         chatId = chatId,
         content = content,
+    )
+}
+
+fun IncomingWebSocketDto.NewMessageDto.toEntity(): ChatMessageEntity {
+    return ChatMessageEntity(
+        messageId = id,
+        chatId = chatId,
+        senderId = senderId,
+        content = content,
+        timestamp = Instant.parse(createdAt).toEpochMilliseconds(),
+        deliveryStatus = ChatMessageDeliveryStatus.SENT.name
     )
 }
