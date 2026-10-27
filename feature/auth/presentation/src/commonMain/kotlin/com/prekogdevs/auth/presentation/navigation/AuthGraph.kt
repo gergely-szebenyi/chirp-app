@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.prekogdevs.auth.presentation.email_verification.EmailVerificationRoot
+import com.prekogdevs.auth.presentation.forgot_password.ForgotPasswordRoot
 import com.prekogdevs.auth.presentation.login.LoginRoot
 import com.prekogdevs.auth.presentation.register.RegisterRoot
 import com.prekogdevs.auth.presentation.register_success.RegisterSuccessRoot
@@ -87,6 +88,9 @@ fun NavGraphBuilder.authGraph(
                     }
                 }
             )
+        }
+        composable<AuthGraphRoutes.ForgotPassword> {
+            ForgotPasswordRoot()
         }
     }
 }
