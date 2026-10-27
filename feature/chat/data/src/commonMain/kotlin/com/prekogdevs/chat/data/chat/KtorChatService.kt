@@ -5,10 +5,13 @@ import com.prekogdevs.chat.data.dto.request.CreateChatRequest
 import com.prekogdevs.chat.data.mappers.toDomain
 import com.prekogdevs.chat.domain.chat.ChatService
 import com.prekogdevs.chat.domain.models.Chat
+import com.prekogdevs.core.data.networking.delete
 import com.prekogdevs.core.data.networking.get
 import com.prekogdevs.core.data.networking.post
 import com.prekogdevs.core.domain.util.DataError
+import com.prekogdevs.core.domain.util.EmptyResult
 import com.prekogdevs.core.domain.util.Result
+import com.prekogdevs.core.domain.util.asEmptyResult
 import com.prekogdevs.core.domain.util.map
 import io.ktor.client.HttpClient
 
@@ -37,5 +40,11 @@ class KtorChatService(
         return httpClient.get<ChatDto>(
             route = "/chat/$chatId"
         ).map { it.toDomain() }
+    }
+
+    override suspend fun leaveChat(chatId: String): EmptyResult<DataError.Remote> {
+        return httpClient.delete<Unit>(
+            route = "/chat/$chatId/leave"
+        ).asEmptyResult()
     }
 }

@@ -1,0 +1,8 @@
+package com.prekogdevs.chat.presentation.chat_detail
+
+import com.prekogdevs.core.presentation.util.UiText
+
+sealed interface ChatDetailEvent {
+    data object OnChatLeft: ChatDetailEvent
+    data class OnError(val error: UiText): ChatDetailEvent
+}
