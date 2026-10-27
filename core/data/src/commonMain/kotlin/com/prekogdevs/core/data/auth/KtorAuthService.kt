@@ -1,17 +1,39 @@
 package com.prekogdevs.core.data.auth
 
+import com.prekogdevs.core.data.dto.AuthInfoSerializable
 import com.prekogdevs.core.data.dto.requests.EmailRequest
+import com.prekogdevs.core.data.dto.requests.LoginRequest
 import com.prekogdevs.core.data.dto.requests.RegisterRequest
+import com.prekogdevs.core.data.mappers.toDomain
 import com.prekogdevs.core.data.networking.get
 import com.prekogdevs.core.data.networking.post
+import com.prekogdevs.core.domain.auth.AuthInfo
 import com.prekogdevs.core.domain.auth.AuthService
 import com.prekogdevs.core.domain.util.DataError
 import com.prekogdevs.core.domain.util.EmptyResult
+import com.prekogdevs.core.domain.util.Result
+import com.prekogdevs.core.domain.util.map
+import com.prekogdevs.core.domain.util.onSuccess
 import io.ktor.client.HttpClient
 
 class KtorAuthService(
     private val httpClient: HttpClient
 ): AuthService {
+
+    override suspend fun login(
+        email: String,
+        password: String
+    ): Result<AuthInfo, DataError.Remote> {
+        return httpClient.post<LoginRequest, AuthInfoSerializable>(
+            route = "/auth/login",
+            body = LoginRequest(
+                email = email,
+                password = password
+            )
+        ).map { authInfoSerializable ->
+            authInfoSerializable.toDomain()
+        }
+    }
 
     override suspend fun register(
         email: String,
