@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.prekogdevs.chat.domain.models.ChatMessageDeliveryStatus
 import com.prekogdevs.chat.domain.models.ChatParticipant
 import com.prekogdevs.chat.presentation.model.MessageUi
+import com.prekogdevs.chat.presentation.util.getChatBubbleColorForUser
 import com.prekogdevs.core.designsystem.components.avatar.ChatParticipantUi
 import com.prekogdevs.core.designsystem.theme.ChirpTheme
 import com.prekogdevs.core.designsystem.theme.extended
@@ -51,7 +52,8 @@ fun MessageListItemUi(
             }
             is MessageUi.OtherUserMessage -> {
                 OtherUserMessage(
-                    message = messageUi
+                    message = messageUi,
+                    color = getChatBubbleColorForUser(messageUi.sender.id)
                 )
             }
         }
