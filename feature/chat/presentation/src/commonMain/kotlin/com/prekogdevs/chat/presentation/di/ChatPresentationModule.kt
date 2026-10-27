@@ -5,6 +5,7 @@ import com.prekogdevs.chat.presentation.chat_list.ChatListViewModel
 import com.prekogdevs.chat.presentation.chat_list_detail.ChatListDetailViewModel
 import com.prekogdevs.chat.presentation.create_chat.CreateChatViewModel
 import com.prekogdevs.chat.presentation.manage_chat.ManageChatViewModel
+import com.prekogdevs.chat.presentation.profile.ProfileViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -14,4 +15,5 @@ val chatPresentationModule = module {
     viewModelOf(::CreateChatViewModel)
     viewModelOf(::ChatDetailViewModel)
     viewModelOf(::ManageChatViewModel)
+    viewModelOf(::ProfileViewModel)
 }

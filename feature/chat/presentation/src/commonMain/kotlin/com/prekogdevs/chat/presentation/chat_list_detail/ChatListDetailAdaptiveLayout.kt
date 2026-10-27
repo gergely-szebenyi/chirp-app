@@ -22,6 +22,7 @@ import com.prekogdevs.chat.presentation.chat_detail.ChatDetailRoot
 import com.prekogdevs.chat.presentation.chat_list.ChatListRoot
 import com.prekogdevs.chat.presentation.create_chat.CreateChatRoot
 import com.prekogdevs.chat.presentation.manage_chat.ManageChatRoot
+import com.prekogdevs.chat.presentation.profile.ProfileRoot
 import com.prekogdevs.core.designsystem.theme.extended
 import com.prekogdevs.core.presentation.util.DialogSheetScopedViewModel
 import kotlinx.coroutines.launch
@@ -126,6 +127,16 @@ fun ChatListDetailAdaptiveLayout(
             onMembersAdded = {
                 chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)
             },
+            onDismiss = {
+                chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)
+            }
+        )
+    }
+
+    DialogSheetScopedViewModel(
+        visible = sharedState.dialogState is DialogState.Profile
+    ) {
+        ProfileRoot(
             onDismiss = {
                 chatListDetailViewModel.onAction(ChatListDetailAction.OnDismissCurrentDialog)
             }
