@@ -3,6 +3,7 @@ package com.prekogdevs.chat.domain.message
 import com.prekogdevs.chat.domain.models.ChatMessage
 import com.prekogdevs.chat.domain.models.ChatMessageDeliveryStatus
 import com.prekogdevs.chat.domain.models.MessageWithSender
+import com.prekogdevs.chat.domain.models.OutgoingNewMessage
 import com.prekogdevs.core.domain.util.DataError
 import com.prekogdevs.core.domain.util.EmptyResult
 import com.prekogdevs.core.domain.util.Result
@@ -18,6 +19,8 @@ interface MessageRepository {
         chatId: String,
         before: String? = null
     ): Result<List<ChatMessage>, DataError>
+
+    suspend fun sendMessage(message: OutgoingNewMessage): EmptyResult<DataError>
 
     fun getMessagesForChat(chatId: String): Flow<List<MessageWithSender>>
 }
